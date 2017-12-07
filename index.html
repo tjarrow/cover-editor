@@ -13,6 +13,19 @@
   <div class="container">
 
       <div class="canvas " id = "canvas">
+
+        <div class="background-color-menu " id = "color-menu">
+
+          <div contenteditable="true" class="color-code" type="text">
+            #FFFFFF
+          </div>
+
+          <div class="color-preview color-preview--background">
+
+          </div>
+
+
+        </div>
       <div class="toolbar">
 
 
@@ -54,13 +67,15 @@
           </span>
         </button>
 
-        <button class="button buttons__image" id="image">
+        <button  class="button buttons__image"   onclick="">
           <div class="icons" >
             <img src="icons/Combined_Shape.png" alt="">
           </div>
           <span>
           Image
         </span>
+        <input type="file" name="files[]" id="image-loader" >
+
       </button>
 
 
@@ -87,9 +102,25 @@
 
     </div>
 
-    <svg class="svg-form" id="svg-form">
-      <rect>
-      </rect>
+    <svg class="svg-form" id="svg-form" viewBox="0 0 740 420" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+      <defs>
+          <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="740" height="420">
+         <rect id="rectangle" x="-2" y="-2" width="740" height="420" fill="white">
+
+         </rect>
+         <use xlink:href="#path-1" fill="black"></use>
+          </mask>
+      </defs>
+        <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+            <g id="Desktop---Select-bg" transform="translate(-86.000000, -181.000000)">
+                <g id="canvas---selected" transform="translate(81.000000, 176.000000)">
+                    <use stroke="#cbdbf0" mask="url(#mask-2)" stroke-width="4" stroke-dasharray="5" xlink:href="#path-1"></use>
+                    <rect id="canvas" fill="#FFFFFF" fill-rule="evenodd" x="5" y="5" width="740" height="496" rx="2"></rect>
+                </g>
+            </g>
+        </g>
+
+
     </svg>
 
 
@@ -97,7 +128,7 @@
 
 
 
-        <div class="icons editing-icons">
+        <div class="icons editing-icons text-resize" >
           <img src="icons/big-text.png" alt="">
 
         </div>
@@ -125,26 +156,14 @@
           <img src="icons/align-right.png" id ="align-right" alt="" class="">
         </div>
 
-        <div class="color-selection">
+        <div class="color-preview color-preview--text">
 
         </div>
 
 
       </div>
 
-      <div class="background-color-menu " id = "color-menu">
 
-        <input class="color-code" type="text">
-
-
-
-
-        <div class="color-selection">
-
-        </div>
-
-
-      </div>
 
 
 </div>

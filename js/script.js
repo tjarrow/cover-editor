@@ -114,6 +114,7 @@ var mainTextToolbarAppear = function (mainTextInit) {
 
 }
 
+
 mainTextButton.addEventListener("click", function() {
 
 
@@ -158,6 +159,7 @@ headlineTextButton.addEventListener("click", function() {
 
 });
 
+
 //function toolbarEditing() {
 
 //    function toolbarInit () {
@@ -174,7 +176,22 @@ headlineTextButton.addEventListener("click", function() {
 //
 // };
 
-function textPositioning() {
+function textEditing() {
+
+  document.querySelector(".text-resize").addEventListener("click", function() {
+      console.log("resize");
+
+      if (editMenu.classList.contains('editing-menu--headline')) {
+        headlineText.style.fontSize = "150%";
+      }
+
+      else if (editMenu.classList.contains('editing-menu--maintext')) {
+
+        mainText.style.fontSize = "150%";
+
+      }
+
+  });
 
 
   document.getElementById("align-center").addEventListener("click", function() {
@@ -230,7 +247,7 @@ function textPositioning() {
 
 }
 
- textPositioning();
+ textEditing();
 
 
 
@@ -272,8 +289,72 @@ function canvasResize (type) {
 
       }
 
-
-
-
-
  }
+
+var colorCode = document.querySelector(".color-code");
+
+colorCode.addEventListener("keypress", function(e) {
+  if (e.keyCode === 13 || e.which === 13) {
+			e.preventDefault();
+			return false;
+		}
+  })
+
+colorCode.addEventListener("keyup",function(e) {
+  function validTextColour(stringToTest) {
+      if (stringToTest === "") { return false; }
+      if (stringToTest === "inherit") { return false; }
+      if (stringToTest === "transparent") { return false; }
+
+      var image = document.createElement("img");
+      image.style.color = "rgb(0, 0, 0)";
+      image.style.color = stringToTest;
+      if (image.style.color !== "rgb(0, 0, 0)") { return true; }
+      image.style.color = "rgb(255, 255, 255)";
+      image.style.color = stringToTest;
+      return image.style.color !== "rgb(255, 255, 255)";
+  }
+
+  var newBgColor = colorCode.innerHTML;
+  if (validTextColour(newBgColor)) {
+    document.querySelector(".color-preview").style.backgroundColor = newBgColor;
+    document.querySelector(".svg-form").querySelector("#canvas").setAttribute("fill", newBgColor);
+  }
+})
+
+
+
+
+function createSVGImage(evt) {
+
+    var files = evt.target.files;
+
+    for (var i = 0, f; f = files[i]; i++) {
+
+      if (!f.type.match('image.*')) {
+        continue;
+      }
+
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+
+
+          var img = document.createElementNS('http://www.w3.org/2000/svg',"image");
+          img.setAttributeNS('http://www.w3.org/1999/xlink','xlink:href', e.target.result);
+          img.setAttributeNS(null, 'width', '100');
+          img.setAttributeNS(null, 'height', '100');
+          img.setAttributeNS(null,'x','10');
+          img.setAttributeNS(null,'y','10');
+          img.setAttributeNS(null, 'visibility', 'visible');
+
+          svgForm.appendChild(img);
+
+        };
+
+      reader.readAsDataURL(f);
+
+    }
+  }
+
+  document.getElementById('image-loader').addEventListener('change', createSVGImage, false);
