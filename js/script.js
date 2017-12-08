@@ -4,22 +4,7 @@
 //
 // var ctx = canvas.getContext("2d");
 
-var svgForm = document.getElementById('svg-form');
-
-function createSVG(n, v) {
-n = document.createElementNS("http://www.w3.org/2000/svg", n);
-for (var p in v)
- n.setAttributeNS(null, p.replace(/[A-Z]/g, function(m, p, o, s) {
-  return "-" + m.toLowerCase(); }), v[p]);
-return n
-}
-
-function createSVGform() {
-
-  var svg = createSVG('svg');
-  //var formSVG = createSVG(('rect', { x: 88, y: 176, width: 650, height: 370, rx: 2, ry: 2, fill: '#FFFFFF', stroke:'#D6E5F9', strokeWidth:3, strokeDasharray: "0.5%", strokeDashoffset: "10%", strokeLinejoin: "miter", strokeLinecap: "butt"}));
-  var formSVG = createSVG('rect');
-}
+var svgForm = document.querySelector('.svg-form');
 
 //svgForm = createSVGform();
 
@@ -29,25 +14,22 @@ var horizontalCanvas = document.getElementById('horizontal');
 var verticalCanvas = document.getElementById('vertical');
 
 //color menu initialization
-var colorMenu = document.getElementById("color-menu");
+var toolbarColor = document.getElementById("toolbar-color");
 
 //textareas initialization
 
-var headlineTextarea = document.getElementById("headline-textarea");
 
-var mainTextarea = document.getElementById("main-textarea");
 
 //editing toolbar initialization
 
-let editMenu;
+let toolbarText;
 
 //text adding
 var mainTextButton = document.getElementById("main-text-button");
 
 var headlineTextButton = document.getElementById("headline-text-button");
 
-let headlineText,
-    mainText;
+
 
 // created text initialization
 
@@ -62,9 +44,59 @@ var textEditable = document.getElementsByClassName("text-editable");
 
 svgForm.addEventListener("click", function() {
 
-  colorMenu.style.opacity = "1";
+  toolbarColor.style.opacity = "1";
 
 });
+
+
+
+function setPositionX(element, positionX) {
+
+
+    switch (positionX) {
+
+      case 'center':
+        element.setAttribute('x', '300');
+        break;
+
+      case 'left':
+        element.setAttribute('x', '10');
+        break;
+
+      case 'right':
+        element.setAttribute('x', '600');
+        break;
+
+    }
+
+  }
+
+  function setPositionY(element, positionY) {
+
+    switch (positionY) {
+
+      case 'top':
+        element.setAttribute('y', '10');
+        break;
+
+      case 'middle':
+        element.setAttribute('y', '150');
+        break;
+
+      case 'bottom':
+        element.setAttribute('y', '230');
+        break;
+
+    }
+
+}
+
+function getPositionX(element) {
+
+      return element.getAttribute('x');
+
+}
+
 
 var headlineTextClicked = function(event) {
 
@@ -84,175 +116,261 @@ var headlineTextClicked = function(event) {
 
 var headlineToolbarAppear = function(headlineTextInit) {
 
-  editMenu = document.getElementById("editing-menu");
+  toolbarText = document.getElementById("toolbar-text");
 
 
-  if (editMenu.classList.contains("editing-menu--maintext"))
+  if (toolbarText.classList.contains("toolbar-text--maintext"))
 
-    editMenu.classList.remove("editing-menu--maintext");
+    toolbarText.classList.remove("toolbar-text--maintext");
 
   console.log ("H.text");
 
-  editMenu.classList.add("editing-menu--headline");
+  toolbarText.classList.add("toolbar-text--headline");
 
 //textPositioning();
 };
 
 var mainTextToolbarAppear = function (mainTextInit) {
 
-  editMenu = document.getElementById("editing-menu");
+  toolbarText = document.getElementById("toolbar-text");
 
-  if (editMenu.classList.contains("editing-menu--headline"))
+  if (toolbarText.classList.contains("toolbar-text--headline"))
 
-  editMenu.classList.remove("editing-menu--headline");
+  toolbarText.classList.remove("toolbar-text--headline");
 
   console.log("main text");
 
-  editMenu.classList.add("editing-menu--maintext");
+  toolbarText.classList.add("toolbar-text--maintext");
 
   //textPositioning();
 
 }
 
+function MainTextInit(text, svgElem) {
 
-mainTextButton.addEventListener("click", function() {
+ setPositionX(svgElem,'center');
+ setPositionY(svgElem,'bottom');
+
+ text.innerHTML = "Main text";
+ text.addEventListener('click', mainTextClicked, false);
+
+}
+
+function HeadlineTextInit(text, svgElem) {
+
+ setPositionX(svgElem,'center' );
+ setPositionY(svgElem, 'top');
+
+ text.innerHTML = "Headline";
+ text.addEventListener('click', headlineTextClicked, false);
+}
+
+function TextAppend(textType) {
+
+    var TextInSVG = document.createElementNS('http://www.w3.org/2000/svg',"foreignObject");
+
+    var TextEditable = document.createElement("h3");
+
+    TextEditable.className = "text-editable";
+
+    svgForm.appendChild(TextInSVG);
+
+    svgForm.classList.add ("svg-with-text");
+
+    TextInSVG.appendChild(TextEditable);
+
+    console.log(TextInSVG);
+
+     if (textType == "main text") {
+       TextInSVG.id = "main-text";
+       MainTextInit(TextEditable, TextInSVG);
+
+     }
+
+        else if (textType == "headline text") {
+          TextInSVG.id = "headline-text";
+          HeadlineTextInit(TextEditable,TextInSVG);
+
+        }
+
+}
 
 
-    var mainTextEditable = document.createElement("p");
+mainTextButton.addEventListener("click", function() { TextAppend('main text') });
 
-    mainTextEditable.innerHTML = "Main text";
-
-    mainTextEditable.className = "text-editable";
-
-    mainTextEditable.id = "main-text";
-
-    mainTextEditable.addEventListener('click', mainTextClicked, false);
-
-    mainTextarea.appendChild(mainTextEditable);
-
-    mainText = document.getElementById("main-text");
-
-    mainTextButton.setAttribute("disabled", true);
-
-});
-
-
-
-headlineTextButton.addEventListener("click", function() {
-
-
-    var headlineEditable = document.createElement("h3");
-
-    headlineEditable.innerHTML = "Headline";
-
-    headlineEditable.className = "text-editable"
-
-    headlineEditable.id = "headline-text";
-
-    headlineEditable.addEventListener('click', headlineTextClicked, false);
-
-    headlineTextarea.appendChild(headlineEditable);
-
-    headlineText = document.getElementById("headline-text");
-
-    headlineTextButton.setAttribute("disabled", true);
-
-});
-
-
-//function toolbarEditing() {
-
-//    function toolbarInit () {
-//
-//    if (textEditable.length) {
-//
-//     for (var i = 0; i < textEditable.length; i++) {
-//
-//       textEditable[i].addEventListener("click", textClicked, false);
-//
-//     }
-//
-//   }
-//
-// };
+headlineTextButton.addEventListener("click", function() { TextAppend('headline text') });
 
 function textEditing() {
 
   document.querySelector(".text-resize").addEventListener("click", function() {
       console.log("resize");
 
-      if (editMenu.classList.contains('editing-menu--headline')) {
+      if (toolbarText.classList.contains('toolbar-text--headline')) {
         headlineText.style.fontSize = "150%";
       }
 
-      else if (editMenu.classList.contains('editing-menu--maintext')) {
+      else if (toolbarText.classList.contains('toolbar-text--maintext')) {
 
         mainText.style.fontSize = "150%";
 
       }
 
+      // добавить изменение цвета текста
   });
+}
 
 
+  var headlineText = document.getElementById("headline-text"),
+      mainText = document.getElementById("main-text");
+
+      /*function toolbarPosition(textType, position) {
+
+            if (svgForm.classList.contains(document.querySelectorAll(".text-editable"))) {
+
+              switch (position) {
+
+                  case 'center' :
+
+                    //console.log('center');
+                    setPositionX(textType, 'center');
+                    //setPositionX(toolbarText, 'center');
+                    break;
+
+                  case 'right' :
+
+                  setPositionX(textType, 'right');
+                  //setPositionX(toolbarText, 'right');
+                  break;
+
+
+                  case 'left' :
+
+                  setPositionX(textType, 'left');
+                  //setPositionX(toolbarText, 'left');
+                  break;
+
+     }
+
+   }
+
+ }*/
+
+    document.getElementById("align-center").addEventListener("click", function() {
+
+          if (svgForm.classList.contains("svg-with-text"))
+          {
+            console.log('center');
+            if (toolbarText.classList.contains('toolbar-text--headline'))
+            {
+              setPositionX(headlineText, 'center');
+              setPositionX(toolbarText, 'center');
+
+            }
+            if (toolbarText.classList.contains('toolbar-text--maintext'))
+            {
+              setPositionX(mainText, 'center');
+              setPositionX(toolbarText, 'center');
+            }
+
+          }
+
+    });
+
+    document.getElementById("align-left").addEventListener("click", function() {
+
+      if (svgForm.classList.contains("svg-with-text"))
+      {
+          if (toolbarText.classList.contains('toolbar-text--headline'))
+          {
+            setPositionX(headlineText, 'left');
+            setPositionX(toolbarText, 'left');
+          }
+          if (toolbarText.classList.contains('toolbar-text--maintext'))
+          {
+            setPositionX(headlineText, 'left');
+            setPositionX(toolbarText, 'left');
+          }
+
+          }
+
+
+    });
+
+    document.getElementById("align-right").addEventListener("click", function() {
+
+      if (svgForm.classList.contains("svg-with-text"))
+
+              {
+
+                if (toolbarText.classList.contains('toolbar-text--headline'))
+                {
+                  setPositionX(headlineText, 'right');
+                  setPositionX(toolbarText, 'right');
+                }
+                if (toolbarText.classList.contains('toolbar-text--maintext'))
+                {
+                  setPositionX(headlineText, 'right');
+                  setPositionX(toolbarText, 'right');
+                }
+
+              }
+
+    });
+
+
+/*
   document.getElementById("align-center").addEventListener("click", function() {
 
-
-    if (editMenu.classList.contains('editing-menu--headline') && (headlineText.style.textAlign != "center")) {
+    if (toolbarText.classList.contains('toolbar-text--headline') && (headlineText.style.textAlign != "center")) {
 
     headlineText.style.textAlign = "center";
 
-
   } else
-   if (editMenu.classList.contains('editing-menu--maintext') && (mainText.style.textAlign != "center")) {
+   if (toolbarText.classList.contains('toolbar-text--maintext') && (mainText.style.textAlign != "center")) {
 
     mainText.style.textAlign = "center";
 
     }
-     editMenu.style.marginLeft = "auto"
-     editMenu.style.marginRight = "auto";
+     toolbarText.style.marginLeft = "auto"
+     toolbarText.style.marginRight = "auto";
   });
 
   document.getElementById("align-left").addEventListener("click", function(){
 
 
-    if (editMenu.classList.contains('editing-menu--headline') && (headlineText.style.textAlign != "left")) {
+    if (toolbarText.classList.contains('toolbar-text--headline') && (headlineText.style.textAlign != "left")) {
 
     headlineText.style.textAlign = "left";
 
   } else
-   if (editMenu.classList.contains('editing-menu--maintext') && (mainText.style.textAlign != "left")) {
+   if (toolbarText.classList.contains('toolbar-text--maintext') && (mainText.style.textAlign != "left")) {
 
     mainText.style.textAlign = "left";
 
   }
-  editMenu.style.marginLeft = "0";
+  toolbarText.style.marginLeft = "0";
 
   });
 
-
   document.getElementById("align-right").addEventListener("click", function(){
 
-    if (editMenu.classList.contains('editing-menu--headline') && (headlineText.style.textAlign != "right")) {
+    if (toolbarText.classList.contains('toolbar-text--headline') && (headlineText.style.textAlign != "right")) {
 
     headlineText.style.textAlign = "right";
 
 
-  } else if (editMenu.classList.contains('editing-menu--maintext') && (mainText.style.textAlign != "right")) {
+  } else if (toolbarText.classList.contains('toolbar-text--maintext') && (mainText.style.textAlign != "right")) {
 
     mainText.style.textAlign = "right";
   }
-  editMenu.style.marginRight = "0";
+  toolbarText.style.marginRight = "0";
 
     });
 
 }
-
+*/
  textEditing();
 
-
-
-
-//}
 
 
 function canvasResize (type) {

@@ -56,33 +56,17 @@ button {
   background: #FFF;
 }
 
-.textarea {
-  outline : none;
-  position: absolute;
-  font-size: 30px;
-  font-weight: 700;
-  width: inherit;
-  height: 210px;
-  z-index: 1000;
-}
 
 .text-editable {
-  position: relative;
+  width: 100px;
+  height: 100px;
   text-align: center;
   display: block;
-  margin-top: 50px;
 }
 
-.headline-textarea {
-  margin-top: 30px;
-}
 
-.main-textarea {
-  margin-top: 210px;
 
-}
-
-.editing-menu {
+.toolbar-text {
   display: block;
   visibility: hidden;
   position: relative;
@@ -95,18 +79,23 @@ button {
 
 }
 
-.editing-menu--headline {
+.toolbar-text--headline {
   margin-top: -55%;
   visibility: visible;
 }
 
-.editing-menu--maintext {
+.toolbar-text--maintext {
   margin-top: -29%;
   visibility: visible;
 
 }
 
-.background-color-menu {
+.toolbar-color--visible {
+  opacity: 1;
+}
+
+.toolbar-color {
+  opacity: 0;
   display: inline-block;
   position: absolute;
   width: 168px;
