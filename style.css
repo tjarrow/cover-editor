@@ -23,8 +23,7 @@ button {
   left : 0;
   position: fixed;
   text-align: center;
-
-  background: #dbe9e8;
+  background: #dbe9e870;
 }
 
 .canvas {
@@ -64,11 +63,8 @@ button {
   display: block;
 }
 
-
-
 .toolbar-text {
-  display: block;
-  visibility: hidden;
+  display: none;
   position: relative;
   width: 168px;
   height: 36px;
@@ -79,10 +75,10 @@ button {
 
 }
 
-.toolbar-text--headline {
-  margin-top: -55%;
-  visibility: visible;
+.toolbar-text--visible {
+  display:block !important;
 }
+
 
 .toolbar-text--maintext {
   margin-top: -29%;
@@ -90,13 +86,14 @@ button {
 
 }
 
+
+
 .toolbar-color--visible {
-  opacity: 1;
+  display: inline-block !important;
 }
 
 .toolbar-color {
-  opacity: 0;
-  display: inline-block;
+  display: none;
   position: absolute;
   width: 168px;
   height: 36px;
@@ -107,9 +104,30 @@ button {
   z-index: 10000;
 }
 
-.background-color-menu--visible {
-  display: inline-block;
+.toolbar-color--maintext {
+  margin-top: 40% !important;
+  display: inline-block !important;
+  position: absolute;
+  top: auto;
+  right: auto;
+  margin-left: -12% !important;
 }
+
+.toolbar-color--headline {
+  margin-top: 16% !important;
+  display: inline-block !important;
+  position: absolute;
+  top: auto;
+  right: auto;
+  margin-left: -12% !important;
+}
+
+.toolbar-text--headline {
+  margin-top: -55% !important;
+  visibility: visible;
+}
+
+
 
 .color-code {
 
@@ -156,14 +174,18 @@ button {
   margin-left: 10px;
   width: 101px;
   height: 31px;
-  background:#3C92F5;
+  background:#D5E4F8;
   border-radius: 5px;
+  vertical-align: middle;
+}
+
+.button::before {
 
 }
 
 .button span {
   display: block;
-    color: #fff;
+    color: #546286;
     /* margin-left: 16px; */
     margin-top: 5px;
     text-align: center;
@@ -178,6 +200,12 @@ button {
     margin-left: 10px;
     background: #00E3AC;
 }
+
+.save-icon {
+  margin-left: 4px !important;
+}
+
+
 
 .svg-image {
   height: 75px;
@@ -207,7 +235,12 @@ input[type=file]{
   width: 13px;
   height: 13px;
   float: left;
+
 }
+
+
+
+
 
 .screen-icons {
   cursor: pointer;
@@ -217,6 +250,36 @@ input[type=file]{
   height: 20px;
 
 }
+.screen-icons-square {
+
+background: url("icons/square.png") no-repeat;
+}
+
+.screen-icons-horizontal {
+background: url("icons/Rectangle3.png") no-repeat;
+margin-left: 5px;
+}
+
+.screen-icons-vertical {
+  background: url("icons/Rectangle_2.png") no-repeat;
+  margin-left: 10px;
+
+}
+
+.screen-icons-square.active {
+    background: url("icons/Rectangle_2(active).png") no-repeat;
+}
+
+.screen-icons-vertical.active {
+    background: url("icons/canvas-vertical-selected.png") no-repeat;
+}
+
+.screen-icons-horizontal.active {
+    background: url("icons/Rectangle_2 (6).png") no-repeat;
+}
+
+
+
 
 
 

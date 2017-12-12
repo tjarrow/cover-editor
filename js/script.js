@@ -17,8 +17,11 @@ var verticalCanvas = document.getElementById('vertical');
 var toolbarColor = document.getElementById("toolbar-color");
 
 //textareas initialization
+var colorPreview = document.querySelector(".color-preview");
 
-
+var colorCode = document.querySelector('.color-code');
+var colorCodeBackground;// = document.querySelector('.color-code-background'); // = document.querySelector(".color-code-background");
+var colorCodeText;
 
 //editing toolbar initialization
 
@@ -29,7 +32,8 @@ var mainTextButton = document.getElementById("main-text-button");
 
 var headlineTextButton = document.getElementById("headline-text-button");
 
-
+var headlineText, //= document.getElementById("headline-text"),
+    mainText; //= document.getElementById("main-text");
 
 // created text initialization
 
@@ -42,13 +46,34 @@ var textEditable = document.getElementsByClassName("text-editable");
 //var headlineTextEditable = document.getElementById("headline-text");
 
 
-svgForm.addEventListener("click", function() {
+// svgForm.addEventListener("click", function() {
+//
+//
+// });
 
-  toolbarColor.style.opacity = "1";
+svgForm.onclick = function() {
 
-});
+  toolbarColor.classList.add('toolbar-color--visible');
+  colorCode.classList.add('color-code-background');
+  colorCodeBackground = document.querySelector('.color-code-background');
+  colorCodeBackground.addEventListener("keypress", function(e) {enterColor(e)} );
 
 
+  colorCodeBackground.addEventListener("keyup", function (e) {setBgColor()} );
+}
+// svgForm.onblur = function() {
+//
+//   toolbarColor.classList.remove('toolbar-color--visible');
+//
+// }
+
+
+
+// function showColorToolbar () {
+//   toolbarColor.classList.add('toolbar-color--visible');
+//
+
+// }
 
 function setPositionX(element, positionX) {
 
@@ -76,7 +101,7 @@ function setPositionX(element, positionX) {
     switch (positionY) {
 
       case 'top':
-        element.setAttribute('y', '10');
+        element.setAttribute('y', '40');
         break;
 
       case 'middle':
@@ -117,7 +142,7 @@ var headlineTextClicked = function(event) {
 var headlineToolbarAppear = function(headlineTextInit) {
 
   toolbarText = document.getElementById("toolbar-text");
-
+  setPositionX(toolbarText, "center");
 
   if (toolbarText.classList.contains("toolbar-text--maintext"))
 
@@ -126,6 +151,7 @@ var headlineToolbarAppear = function(headlineTextInit) {
   console.log ("H.text");
 
   toolbarText.classList.add("toolbar-text--headline");
+  toolbarText.classList.add("toolbar-text--visible");
 
 //textPositioning();
 };
@@ -141,10 +167,53 @@ var mainTextToolbarAppear = function (mainTextInit) {
   console.log("main text");
 
   toolbarText.classList.add("toolbar-text--maintext");
+  toolbarText.classList.add("toolbar-text--visible");
 
-  //textPositioning();
+  //var colorPreviewText = document.querySelector("color-preview--text");
 
 }
+
+
+document.getElementById("color-preview--text").addEventListener("click", function() {
+    console.log('preview');
+
+      if (toolbarText.classList.contains("toolbar-text--maintext")) {
+        toolbarText.classList.remove("toolbar-text--visible");
+        toolbarColor.classList.add("toolbar-color--maintext");
+      }
+
+       if (toolbarText.classList.contains("toolbar-text--headline")) {
+        toolbarText.classList.remove("toolbar-text--visible");
+        toolbarColor.classList.add("toolbar-color--headline");
+      }
+
+      colorCode.classList.add("color-code-text");
+      colorCode.classList.remove("color-code-background");
+      colorCodeText = document.querySelector(".color-code-text");
+
+
+      colorCodeText.addEventListener("keypress", function(e){enterColor(e)} );
+       colorCodeText.addEventListener("keyup", function(e) {setTextColor()} );
+
+})
+
+document.getElementById("color-preview--background").addEventListener("click", function() {
+
+  if (toolbarColor.classList.contains("toolbar-color--maintext"))
+  {
+    toolbarColor.classList.remove("toolbar-color--maintext");
+    toolbarText.classList.add("toolbar-text--visible");
+  }
+
+  if (toolbarColor.classList.contains("toolbar-color--headline")) {
+   toolbarColor.classList.remove("toolbar-color--headline");
+   toolbarText.classList.add("toolbar-text--visible");
+  }
+
+  colorCode.classList.remove("color-code-text");
+  colorCode.classList.add("color-code-background");
+})
+
 
 function MainTextInit(text, svgElem) {
 
@@ -179,22 +248,19 @@ function TextAppend(textType) {
 
     TextInSVG.appendChild(TextEditable);
 
-    console.log(TextInSVG);
-
      if (textType == "main text") {
        TextInSVG.id = "main-text";
        MainTextInit(TextEditable, TextInSVG);
-
+       mainText = document.getElementById("main-text");
      }
 
         else if (textType == "headline text") {
           TextInSVG.id = "headline-text";
           HeadlineTextInit(TextEditable,TextInSVG);
-
+          headlineText = document.getElementById("headline-text");
         }
 
 }
-
 
 mainTextButton.addEventListener("click", function() { TextAppend('main text') });
 
@@ -220,8 +286,7 @@ function textEditing() {
 }
 
 
-  var headlineText = document.getElementById("headline-text"),
-      mainText = document.getElementById("main-text");
+
 
       /*function toolbarPosition(textType, position) {
 
@@ -318,57 +383,6 @@ function textEditing() {
     });
 
 
-/*
-  document.getElementById("align-center").addEventListener("click", function() {
-
-    if (toolbarText.classList.contains('toolbar-text--headline') && (headlineText.style.textAlign != "center")) {
-
-    headlineText.style.textAlign = "center";
-
-  } else
-   if (toolbarText.classList.contains('toolbar-text--maintext') && (mainText.style.textAlign != "center")) {
-
-    mainText.style.textAlign = "center";
-
-    }
-     toolbarText.style.marginLeft = "auto"
-     toolbarText.style.marginRight = "auto";
-  });
-
-  document.getElementById("align-left").addEventListener("click", function(){
-
-
-    if (toolbarText.classList.contains('toolbar-text--headline') && (headlineText.style.textAlign != "left")) {
-
-    headlineText.style.textAlign = "left";
-
-  } else
-   if (toolbarText.classList.contains('toolbar-text--maintext') && (mainText.style.textAlign != "left")) {
-
-    mainText.style.textAlign = "left";
-
-  }
-  toolbarText.style.marginLeft = "0";
-
-  });
-
-  document.getElementById("align-right").addEventListener("click", function(){
-
-    if (toolbarText.classList.contains('toolbar-text--headline') && (headlineText.style.textAlign != "right")) {
-
-    headlineText.style.textAlign = "right";
-
-
-  } else if (toolbarText.classList.contains('toolbar-text--maintext') && (mainText.style.textAlign != "right")) {
-
-    mainText.style.textAlign = "right";
-  }
-  toolbarText.style.marginRight = "0";
-
-    });
-
-}
-*/
  textEditing();
 
 
@@ -377,6 +391,7 @@ function canvasResize (type) {
 
   var canvas = document.getElementById('canvas');
   var svg = document.getElementById('svg-form');
+  var screenIcons = document.getElementsByClassName("screen-icons");
   var initialWidth = "720px";
   var initialHeight = "510px";
 
@@ -387,6 +402,11 @@ function canvasResize (type) {
       svg.style.width = initialHeight;
       svg.style.height = initialHeight;
 
+      for (i = 0; i < screenIcons.length; i++)
+          screenIcons[i].classList.remove("active");
+
+      document.querySelector(".screen-icons-square").classList.add("active");
+
 			}
 
       if (type === 'horizontal') {
@@ -395,6 +415,11 @@ function canvasResize (type) {
   			canvas.style.height = initialHeight;
         svg.style.width = initialWidth;
         svg.style.height = initialHeight;
+
+        for (i = 0; i < screenIcons.length; i++)
+            screenIcons[i].classList.remove("active");
+
+        document.querySelector(".screen-icons-horizontal").classList.add("active");
 
       }
 
@@ -405,43 +430,73 @@ function canvasResize (type) {
         svg.style.width = initialHeight;
         svg.style.height = initialWidth;
 
+        for (i = 0; i < screenIcons.length; i++)
+            screenIcons[i].classList.remove("active");
+
+        document.querySelector(".screen-icons-vertical").classList.add("active");
+
       }
 
  }
 
-var colorCode = document.querySelector(".color-code");
-
-colorCode.addEventListener("keypress", function(e) {
-  if (e.keyCode === 13 || e.which === 13) {
-			e.preventDefault();
-			return false;
-		}
-  })
-
-colorCode.addEventListener("keyup",function(e) {
-  function validTextColour(stringToTest) {
-      if (stringToTest === "") { return false; }
-      if (stringToTest === "inherit") { return false; }
-      if (stringToTest === "transparent") { return false; }
-
-      var image = document.createElement("img");
-      image.style.color = "rgb(0, 0, 0)";
-      image.style.color = stringToTest;
-      if (image.style.color !== "rgb(0, 0, 0)") { return true; }
-      image.style.color = "rgb(255, 255, 255)";
-      image.style.color = stringToTest;
-      return image.style.color !== "rgb(255, 255, 255)";
-  }
-
-  var newBgColor = colorCode.innerHTML;
-  if (validTextColour(newBgColor)) {
-    document.querySelector(".color-preview").style.backgroundColor = newBgColor;
-    document.querySelector(".svg-form").querySelector("#canvas").setAttribute("fill", newBgColor);
-  }
-})
+ function enterColor(e)
+ {
+   if (e.keyCode === 13 || e.which === 13) {
+ 			e.preventDefault();
+ 			return false;
+ 		}
+ }
 
 
+   function validTextColour(stringToTest) {
+       if (stringToTest === "") { return false; }
+       if (stringToTest === "inherit") { return false; }
+       if (stringToTest === "transparent") { return false; }
 
+       var image = document.createElement("img");
+       image.style.color = "rgb(0, 0, 0)";
+       image.style.color = stringToTest;
+       if (image.style.color !== "rgb(0, 0, 0)") { return true; }
+       image.style.color = "rgb(255, 255, 255)";
+       image.style.color = stringToTest;
+       return image.style.color !== "rgb(255, 255, 255)";
+   }
+
+ function setBgColor () {
+
+   var newBgColor = colorCodeBackground.innerHTML;
+   if (colorCode.classList.contains("color-code-background"))
+   {
+   if (validTextColour(newBgColor)) {
+     document.querySelector(".color-preview").style.backgroundColor = newBgColor;
+     document.querySelector(".svg-form").querySelector("#canvas").setAttribute("fill", newBgColor);
+   }
+   }
+ }
+
+ function setTextColor () {
+   var newTextColor = colorCodeText.innerHTML;
+   if (colorCode.classList.contains("color-code-text"))
+     {
+     if (validTextColour(newTextColor)) {
+     document.querySelector(".color-preview").style.backgroundColor = newTextColor;
+     var texts = document.getElementsByClassName("text-editable");
+     for (i = 0; i < texts.length; i++)
+     texts[i].style.color = newTextColor;
+     }
+   }
+ }
+
+ function setHeadlineColor () {
+   var newTextColor = colorCodeText.innerHTML;
+   if (toolbarColor.classList.contains("toolbar-color--headline"))
+     {
+       if (validTextColour(newTextColor)) {
+     document.querySelector(".color-preview").style.backgroundColor = newTextColor;
+     document.querySelector("#headline-text").querySelector(".text-editable").style.color = newTextColor;
+     }
+   }
+ }
 
 function createSVGImage(evt) {
 
