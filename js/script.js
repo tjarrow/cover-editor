@@ -77,7 +77,6 @@ svgForm.onclick = function() {
 
 function setPositionX(element, positionX) {
 
-
     switch (positionX) {
 
       case 'center':
@@ -95,6 +94,27 @@ function setPositionX(element, positionX) {
     }
 
   }
+
+  function setToolbarPositionX(toolbar, positionX) {
+
+    switch (positionX) {
+      case 'center':
+        toolbar.style.marginLeft = 'auto';
+        toolbar.style.marginRight = 'auto';
+        break;
+
+      case 'left':
+        toolbar.style.marginLeft = '20px';
+        break;
+
+      case 'right':
+        toolbar.style.marginRight = '20px';
+        break;
+
+    }
+  }
+
+
 
   function setPositionY(element, positionY) {
 
@@ -319,7 +339,6 @@ function textEditing() {
    }
 
  }*/
-
     document.getElementById("align-center").addEventListener("click", function() {
 
           if (svgForm.classList.contains("svg-with-text"))
@@ -328,13 +347,13 @@ function textEditing() {
             if (toolbarText.classList.contains('toolbar-text--headline'))
             {
               setPositionX(headlineText, 'center');
-              setPositionX(toolbarText, 'center');
+              setToolbarPositionX(toolbarText, 'center');
 
             }
             if (toolbarText.classList.contains('toolbar-text--maintext'))
             {
               setPositionX(mainText, 'center');
-              setPositionX(toolbarText, 'center');
+              setToolbarPositionX(toolbarText, 'center');
             }
 
           }
@@ -348,16 +367,15 @@ function textEditing() {
           if (toolbarText.classList.contains('toolbar-text--headline'))
           {
             setPositionX(headlineText, 'left');
-            setPositionX(toolbarText, 'left');
+            setToolbarPositionX(toolbarText, 'left');
           }
           if (toolbarText.classList.contains('toolbar-text--maintext'))
           {
-            setPositionX(headlineText, 'left');
-            setPositionX(toolbarText, 'left');
+            setPositionX(mainText, 'left');
+            setToolbarPositionX(toolbarText, 'left');
           }
 
           }
-
 
     });
 
@@ -370,22 +388,19 @@ function textEditing() {
                 if (toolbarText.classList.contains('toolbar-text--headline'))
                 {
                   setPositionX(headlineText, 'right');
-                  setPositionX(toolbarText, 'right');
+                  setToolbarPositionX(toolbarText, 'right');
                 }
                 if (toolbarText.classList.contains('toolbar-text--maintext'))
                 {
-                  setPositionX(headlineText, 'right');
-                  setPositionX(toolbarText, 'right');
+                  setPositionX(mainText, 'right');
+                  setToolbarPositionX(toolbarText, 'right');
                 }
 
               }
 
     });
 
-
  textEditing();
-
-
 
 function canvasResize (type) {
 
