@@ -1,8 +1,10 @@
-// canvas initialization
+var container = document.querySelector('.container');
+
 
  var canvas = document.getElementById('canvas');
-//
-// var ctx = canvas.getContext("2d");
+
+ var canvasRect = document.getElementById('canvas-rect');
+
 
 var svgForm = document.querySelector('.svg-form');
 
@@ -25,7 +27,7 @@ var colorCodeText;
 
 //editing toolbar initialization
 
-let toolbarText;
+var toolbarText;
 
 //text adding
 var mainTextButton = document.getElementById("main-text-button");
@@ -34,46 +36,37 @@ var headlineTextButton = document.getElementById("headline-text-button");
 
 var headlineText, //= document.getElementById("headline-text"),
     mainText; //= document.getElementById("main-text");
-
+var mainTextFO;
 // created text initialization
 
 
 // canvas text initialization
-var textEditable = document.getElementsByClassName("text-editable");
+var textEditable;
 
-//var mainTextEditable = document.getElementById("main-text");
+var downloadButton = document.querySelector('.buttons__download');
 
-//var headlineTextEditable = document.getElementById("headline-text");
+container.addEventListener("click", function(e) {showColorToolbar(e)});
+
+function showColorToolbar(e) {
+  if ((e.target === canvasRect) || (e.target === colorCodeBackground))
+    toolbarColor.classList.add('toolbar-color--visible');
+
+    else {
+      toolbarColor.classList.remove('toolbar-color--visible');
+    }
+}
 
 
-// svgForm.addEventListener("click", function() {
-//
-//
-// });
+svgForm.addEventListener("click", addColorCodeBackground );
 
-svgForm.onclick = function() {
 
-  toolbarColor.classList.add('toolbar-color--visible');
+function addColorCodeBackground () {
   colorCode.classList.add('color-code-background');
   colorCodeBackground = document.querySelector('.color-code-background');
   colorCodeBackground.addEventListener("keypress", function(e) {enterColor(e)} );
-
-
   colorCodeBackground.addEventListener("keyup", function (e) {setBgColor()} );
 }
-// svgForm.onblur = function() {
-//
-//   toolbarColor.classList.remove('toolbar-color--visible');
-//
-// }
 
-
-
-// function showColorToolbar () {
-//   toolbarColor.classList.add('toolbar-color--visible');
-//
-
-// }
 
 function setPositionX(element, positionX) {
 
@@ -90,6 +83,14 @@ function setPositionX(element, positionX) {
       case 'right':
         element.setAttribute('x', '600');
         break;
+
+      case 'center-square':
+        element.setAttribute('x', '200');
+        break;
+
+        case 'center-vertical':
+            element.setAttribute('x', '300');
+            break;
 
     }
 
@@ -114,8 +115,6 @@ function setPositionX(element, positionX) {
     }
   }
 
-
-
   function setPositionY(element, positionY) {
 
     switch (positionY) {
@@ -129,16 +128,65 @@ function setPositionX(element, positionX) {
         break;
 
       case 'bottom':
-        element.setAttribute('y', '230');
+        element.setAttribute('y', '280');
         break;
 
+        case 'top-vertical':
+          element.setAttribute('y', '40');
+          break;
+
+        case 'middle-vertical':
+          element.setAttribute('y', '280');
+          break;
+
+        case 'bottom-vertical':
+          element.setAttribute('y', '510');
+          break;
     }
 
 }
 
-function getPositionX(element) {
+function setToolbarPositionY(toolbar, positionY) {
+  switch (positionY) {
+    case 'top-vertical':
+      toolbar.style.bottom = '100% ';
+      toolbar.style.marginTop = 'inherit ';
+      break;
 
-      return element.getAttribute('x');
+    case 'middle-vertical': // для вставки изображения в вертикальном режиме
+      //toolbar.style.marginLeft = '20px';
+      break;
+
+      case 'bottom-vertical':
+        toolbar.style.marginTop = '-50%';
+        break;
+
+        case 'top-vertical':
+          toolbar.style.bottom = '100% ';
+          toolbar.style.marginTop = 'inherit ';
+          break;
+
+        // case 'middle-vertical': ;
+        //   break;
+
+          case 'bottom-vertical':
+            toolbar.style.marginTop = '-50%';
+            break;
+
+              case 'top-vertical':
+              toolbar.style.bottom = '100% ';
+              toolbar.style.marginTop = 'inherit ';
+              break;
+
+              case 'top-square':
+              toolbar.style.marginTop = '-97% !important ';
+              break;
+
+              case 'bottom-square':
+              toolbar.style.marginTop = '-50%';
+              break;
+
+      }
 
 }
 
@@ -168,7 +216,6 @@ var headlineToolbarAppear = function(headlineTextInit) {
 
     toolbarText.classList.remove("toolbar-text--maintext");
 
-  console.log ("H.text");
 
   toolbarText.classList.add("toolbar-text--headline");
   toolbarText.classList.add("toolbar-text--visible");
@@ -189,7 +236,6 @@ var mainTextToolbarAppear = function (mainTextInit) {
   toolbarText.classList.add("toolbar-text--maintext");
   toolbarText.classList.add("toolbar-text--visible");
 
-  //var colorPreviewText = document.querySelector("color-preview--text");
 
 }
 
@@ -237,7 +283,7 @@ document.getElementById("color-preview--background").addEventListener("click", f
 
 function MainTextInit(text, svgElem) {
 
- setPositionX(svgElem,'center');
+ //setPositionX(svgElem,'center');
  setPositionY(svgElem,'bottom');
 
  text.innerHTML = "Main text";
@@ -247,7 +293,7 @@ function MainTextInit(text, svgElem) {
 
 function HeadlineTextInit(text, svgElem) {
 
- setPositionX(svgElem,'center' );
+ //setPositionX(svgElem,'center' );
  setPositionY(svgElem, 'top');
 
  text.innerHTML = "Headline";
@@ -260,25 +306,39 @@ function TextAppend(textType) {
 
     var TextEditable = document.createElement("h3");
 
+    TextEditable.setAttribute("contenteditable", "true");
+
     TextEditable.className = "text-editable";
 
+
     svgForm.appendChild(TextInSVG);
+
+     TextInSVG.setAttribute('width', '100%');
+
+    TextInSVG.setAttribute('height', '30px');
 
     svgForm.classList.add ("svg-with-text");
 
     TextInSVG.appendChild(TextEditable);
 
-     if (textType == "main text") {
-       TextInSVG.id = "main-text";
-       MainTextInit(TextEditable, TextInSVG);
-       mainText = document.getElementById("main-text");
-     }
 
-        else if (textType == "headline text") {
-          TextInSVG.id = "headline-text";
-          HeadlineTextInit(TextEditable,TextInSVG);
-          headlineText = document.getElementById("headline-text");
-        }
+
+    if (textType == "main text") {
+      TextInSVG.id = "main-text-fo" ;
+      mainTextFO = document.getElementById("main-text-fo");
+      TextEditable.classList.add("main-text");
+      MainTextInit(TextEditable, TextInSVG);
+      mainText = document.querySelector(".main-text");
+}
+
+       else if (textType == "headline text") {
+         TextEditable.classList.add("headline-text") ;
+         TextInSVG.id = ("headline-text-fo") ;
+         HeadlineTextInit(TextEditable,TextInSVG);
+         headlineText = document.querySelector(".headline-text");
+       }
+
+       //TextEditable = document.querySelector(".text-editable");
 
 }
 
@@ -286,73 +346,36 @@ mainTextButton.addEventListener("click", function() { TextAppend('main text') })
 
 headlineTextButton.addEventListener("click", function() { TextAppend('headline text') });
 
-function textEditing() {
-
-  document.querySelector(".text-resize").addEventListener("click", function() {
-      console.log("resize");
+function textResize(){
 
       if (toolbarText.classList.contains('toolbar-text--headline')) {
         headlineText.style.fontSize = "150%";
       }
 
       else if (toolbarText.classList.contains('toolbar-text--maintext')) {
-
         mainText.style.fontSize = "150%";
-
       }
-
       // добавить изменение цвета текста
-  });
 }
 
+document.querySelector(".text-resize").addEventListener("click", textResize);
 
 
-
-      /*function toolbarPosition(textType, position) {
-
-            if (svgForm.classList.contains(document.querySelectorAll(".text-editable"))) {
-
-              switch (position) {
-
-                  case 'center' :
-
-                    //console.log('center');
-                    setPositionX(textType, 'center');
-                    //setPositionX(toolbarText, 'center');
-                    break;
-
-                  case 'right' :
-
-                  setPositionX(textType, 'right');
-                  //setPositionX(toolbarText, 'right');
-                  break;
-
-
-                  case 'left' :
-
-                  setPositionX(textType, 'left');
-                  //setPositionX(toolbarText, 'left');
-                  break;
-
-     }
-
-   }
-
- }*/
     document.getElementById("align-center").addEventListener("click", function() {
 
           if (svgForm.classList.contains("svg-with-text"))
           {
-            console.log('center');
             if (toolbarText.classList.contains('toolbar-text--headline'))
             {
-              setPositionX(headlineText, 'center');
+              //setPositionX(headlineText, 'center');
+              headlineText.style.textAlign = 'center'
               setToolbarPositionX(toolbarText, 'center');
 
             }
             if (toolbarText.classList.contains('toolbar-text--maintext'))
             {
-              setPositionX(mainText, 'center');
+              //setPositionX(mainText, 'center');
+              mainText.style.textAlign = 'center';
               setToolbarPositionX(toolbarText, 'center');
             }
 
@@ -366,12 +389,12 @@ function textEditing() {
       {
           if (toolbarText.classList.contains('toolbar-text--headline'))
           {
-            setPositionX(headlineText, 'left');
+            headlineText.style.textAlign = 'left';
             setToolbarPositionX(toolbarText, 'left');
           }
           if (toolbarText.classList.contains('toolbar-text--maintext'))
           {
-            setPositionX(mainText, 'left');
+            mainText.style.textAlign = 'left';
             setToolbarPositionX(toolbarText, 'left');
           }
 
@@ -387,12 +410,12 @@ function textEditing() {
 
                 if (toolbarText.classList.contains('toolbar-text--headline'))
                 {
-                  setPositionX(headlineText, 'right');
+                  headlineText.style.textAlign = 'right';
                   setToolbarPositionX(toolbarText, 'right');
                 }
                 if (toolbarText.classList.contains('toolbar-text--maintext'))
                 {
-                  setPositionX(mainText, 'right');
+                  mainText.style.textAlign = 'right';
                   setToolbarPositionX(toolbarText, 'right');
                 }
 
@@ -400,20 +423,21 @@ function textEditing() {
 
     });
 
- textEditing();
+ //textEditing();
 
 function canvasResize (type) {
 
   var canvas = document.getElementById('canvas');
   var svg = document.getElementById('svg-form');
   var screenIcons = document.getElementsByClassName("screen-icons");
-  var initialWidth = "720px";
+  var initialWidth = "740px";
   var initialHeight = "510px";
 
   if (type === 'square') {
 
 			canvas.style.width = initialHeight;
 			canvas.style.height = initialHeight;
+
       svg.style.width = initialHeight;
       svg.style.height = initialHeight;
 
@@ -421,6 +445,26 @@ function canvasResize (type) {
           screenIcons[i].classList.remove("active");
 
       document.querySelector(".screen-icons-square").classList.add("active");
+
+      if (toolbarText.classList.contains("toolbar-text--maintext"))
+      setToolbarPositionY(toolbarText, "bottom-square");
+
+      if (toolbarText.classList.contains("toolbar-text--headline"))
+      setToolbarPositionY(toolbarText, "top-square");
+
+      svg.querySelector("rect").setAttribute("width", parseInt(initialHeight));
+			svg.querySelector("rect").setAttribute("height", parseInt(initialHeight));
+			svg.querySelector("defs").querySelector("rect").setAttribute("width", parseInt(initialHeight) - 4);
+			svg.querySelector("defs").querySelector("rect").setAttribute("height", parseInt(initialHeight) - 4);
+			svg.querySelector("mask").setAttribute("width", parseInt(initialHeight));
+			svg.querySelector("mask").setAttribute("height", parseInt(initialHeight));
+			svg.querySelector("mask").querySelector("rect").setAttribute("width", parseInt(initialHeight));
+			svg.querySelector("mask").querySelector("rect").setAttribute("height", parseInt(initialHeight));
+			svg.setAttribute("width", initialHeight);
+			svg.setAttribute("height", initialHeight);
+			svg.setAttribute("viewBox","0 0 " + parseInt(initialHeight) + " "+ parseInt(initialHeight));
+			svg.querySelector("#canvas-rect").setAttribute("height", parseInt(initialHeight));
+      svg.querySelector("#canvas-rect").setAttribute("width", parseInt(initialHeight));
 
 			}
 
@@ -436,6 +480,20 @@ function canvasResize (type) {
 
         document.querySelector(".screen-icons-horizontal").classList.add("active");
 
+        svg.querySelector("rect").setAttribute("width", parseInt(initialWidth));
+  			svg.querySelector("rect").setAttribute("height", parseInt(initialHeight));
+  			svg.querySelector("defs").querySelector("rect").setAttribute("width", parseInt(initialWidth) - 4);
+  			svg.querySelector("defs").querySelector("rect").setAttribute("height", parseInt(initialHeight) - 4);
+  			svg.querySelector("mask").setAttribute("width", parseInt(initialWidth));
+  			svg.querySelector("mask").setAttribute("height", parseInt(initialHeight));
+  			svg.querySelector("mask").querySelector("rect").setAttribute("width", parseInt(initialWidth));
+  			svg.querySelector("mask").querySelector("rect").setAttribute("height", parseInt(initialHeight));
+  			svg.setAttribute("width", initialWidth);
+  			svg.setAttribute("height", initialHeight);
+  			svg.setAttribute("viewBox","0 0 " + parseInt(initialWidth) + " "+ parseInt(initialHeight));
+  			svg.querySelector("#canvas-rect").setAttribute("height", parseInt(initialHeight));
+        svg.querySelector("#canvas-rect").setAttribute("width", parseInt(initialWidth));
+
       }
 
       if (type === 'vertical') {
@@ -449,6 +507,30 @@ function canvasResize (type) {
             screenIcons[i].classList.remove("active");
 
         document.querySelector(".screen-icons-vertical").classList.add("active");
+
+        setPositionY(mainTextFO, "bottom-vertical");
+
+        if (toolbarText.classList.contains("toolbar-text--maintext"))
+        setToolbarPositionY(toolbarText, "bottom-vertical");
+        //toolbarText.style.marginTop = ''
+
+        else if (toolbarText.classList.contains("toolbar-text--headline"))
+        setToolbarPositionY(toolbarText, "top-vertical");
+
+
+        svg.querySelector("rect").setAttribute("width", parseInt(initialHeight));
+  			svg.querySelector("rect").setAttribute("height", parseInt(initialWidth));
+  			svg.querySelector("defs").querySelector("rect").setAttribute("width", parseInt(initialHeight) - 4);
+  			svg.querySelector("defs").querySelector("rect").setAttribute("height", parseInt(initialWidth) - 4);
+  			svg.querySelector("mask").setAttribute("width", parseInt(initialHeight));
+  			svg.querySelector("mask").setAttribute("height", parseInt(initialWidth));
+  			svg.querySelector("mask").querySelector("rect").setAttribute("width", parseInt(initialHeight));
+  			svg.querySelector("mask").querySelector("rect").setAttribute("height", parseInt(initialWidth));
+  			svg.setAttribute("width", initialHeight);
+  			svg.setAttribute("height", initialWidth);
+  			svg.setAttribute("viewBox","0 0 " + parseInt(initialHeight) + " "+ parseInt(initialWidth));
+  			svg.querySelector("#canvas-rect").setAttribute("width", parseInt(initialHeight));
+        svg.querySelector("#canvas-rect").setAttribute("height", parseInt(initialWidth));
 
       }
 
@@ -484,7 +566,7 @@ function canvasResize (type) {
    {
    if (validTextColour(newBgColor)) {
      document.querySelector(".color-preview").style.backgroundColor = newBgColor;
-     document.querySelector(".svg-form").querySelector("#canvas").setAttribute("fill", newBgColor);
+     document.querySelector(".svg-form").querySelector("#canvas-rect").setAttribute("fill", newBgColor);
    }
    }
  }
@@ -530,11 +612,13 @@ function createSVGImage(evt) {
 
           var img = document.createElementNS('http://www.w3.org/2000/svg',"image");
           img.setAttributeNS('http://www.w3.org/1999/xlink','xlink:href', e.target.result);
-          img.setAttributeNS(null, 'width', '100');
-          img.setAttributeNS(null, 'height', '100');
-          img.setAttributeNS(null,'x','10');
-          img.setAttributeNS(null,'y','10');
+          img.setAttributeNS(null, 'width', '200');
+          img.setAttributeNS(null, 'height', '200');
+          // img.setAttributeNS(null,'x','10');
+          // img.setAttributeNS(null,'y','10');
           img.setAttributeNS(null, 'visibility', 'visible');
+          setPositionX(img,'center');
+          setPositionY(img,'middle');
 
           svgForm.appendChild(img);
 
@@ -546,3 +630,29 @@ function createSVGImage(evt) {
   }
 
   document.getElementById('image-loader').addEventListener('change', createSVGImage, false);
+
+  function SaveCover() {
+
+    let serializer = new window.XMLSerializer(),
+            source = serializer.serializeToString(svgForm);
+
+    if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+
+          source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+
+        }
+
+    source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+
+    var link = document.createElement('a');
+    link.style.display = 'none';
+    link.setAttribute('href', 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(source));
+    link.setAttribute('download', 'cover.svg');
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+  }
+
+downloadButton.addEventListener('click', SaveCover);

@@ -26,7 +26,7 @@
 
 
         </div>
-      <div class="toolbar">
+      <div class="header">
 
 
       <menu class="screen-state-menu">
@@ -49,8 +49,7 @@
       <menu class="buttons">
 
         <button class="button buttons__headline" id="headline-text-button" >
-          <div class="icons header-icons">
-            <img class="" src="icons/Combined_Shape.png"></i>
+          <div class="icons headline-icon">
           </div>
 
           <span>
@@ -59,8 +58,7 @@
         </button>
 
         <button class="button buttons__main-text" id ="main-text-button">
-          <div class="icons header-icons" >
-            <img src="icons/Combined_Shape.png" alt="">
+          <div class="icons main-text-icon" >
           </div>
           <span>
               Main text
@@ -68,8 +66,7 @@
         </button>
 
         <button  class="button buttons__image"   onclick="">
-          <div class="icons header-icons" >
-            <img src="icons/Combined_Shape2.png" alt="">
+          <div class="icons image-icon" >
           </div>
           <span>
           Image
@@ -96,11 +93,13 @@
 
 
 
-    <svg class="svg-form" id="svg-form" contenteditable="true" viewBox="0 0 740 420" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+    <svg class="svg-form" id="svg-form" contenteditable="true" viewBox="0 0 740 510" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
       <defs>
-          <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="740" height="420">
-         <rect id="rectangle" x="-2" y="-2" width="740" height="420" fill="white">
+          <style>
 
+          </style>
+          <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="-2" y="-2" width="740" height="510">
+         <rect id="rectangle" x="-2" y="-2" width="740" height="510" fill="white">
          </rect>
          <use xlink:href="#path-1" fill="black"></use>
           </mask>
@@ -109,56 +108,35 @@
             <g id="Desktop---Select-bg" transform="translate(-86.000000, -181.000000)">
                 <g id="canvas---selected" transform="translate(81.000000, 176.000000)">
                     <use stroke="#cbdbf0" mask="url(#mask-2)" stroke-width="4" stroke-dasharray="5" xlink:href="#path-1"></use>
-                    <rect id="canvas" fill="#FFFFFF" fill-rule="evenodd" x="5" y="5" width="740" height="496" rx="2"></rect>
+                    <rect id="canvas-rect" fill="#FFFFFF" fill-rule="evenodd" x="5" y="5" width="740" height="496" rx="2"></rect>
                 </g>
             </g>
         </g>
+        <div class="toolbar-text" id = "toolbar-text">
 
+          <div class="icons editing-icons text-resize" >
+
+          </div>
+
+
+          <div class="icons editing-icons align-left" id ="align-left" >
+
+          </div>
+
+          <div class="icons editing-icons align-center" id = "align-center">
+
+          </div>
+
+          <div class="icons editing-icons align-right" id ="align-right" >
+          </div>
+
+          <div class="color-preview color-preview--text" id="color-preview--text">
+
+          </div>
+
+        </div>
 
     </svg>
-
-
-      <div class="toolbar-text" id = "toolbar-text">
-
-
-
-        <div class="icons editing-icons text-resize" >
-          <img src="icons/big-text.png" alt="">
-
-        </div>
-
-
-        <div class="icons editing-icons small-text">
-          <img src="icons/small-text.png" alt="">
-
-        </div>
-
-
-        <div class="icons editing-icons" >
-          <img src="icons/align-left.png" id ="align-left" alt="">
-
-        </div>
-
-        <div class="icons editing-icons" >
-          <img src="icons/align-center.png" id = "align-center" alt="">
-
-        </div>
-
-
-
-        <div class="icons editing-icons"  >
-          <img src="icons/align-right.png" id ="align-right" alt="" class="">
-        </div>
-
-        <div class="color-preview color-preview--text" id="color-preview--text">
-
-        </div>
-
-
-      </div>
-
-
-
 
 </div>
 

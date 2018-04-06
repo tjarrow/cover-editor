@@ -34,7 +34,7 @@ button {
 
 }
 
-.toolbar {
+.header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -50,17 +50,22 @@ button {
   position: relative;
   border: 2px dashed #c0d5ef;
   margin-top: 15px;
-  width: inherit;
-  height: 420px;
+  width: 740px;
+  height: 510px;
   background: #FFF;
 }
 
 
 .text-editable {
-  width: 100px;
+  width: 100%;
   height: 100px;
   text-align: center;
   display: block;
+  cursor: pointer;
+}
+
+.text-editable:focus {
+  outline: 0px solid transparent;
 }
 
 .toolbar-text {
@@ -75,13 +80,17 @@ button {
 
 }
 
+.toolbar-text::after {
+  background: url('')
+}
+
 .toolbar-text--visible {
   display:block !important;
 }
 
 
 .toolbar-text--maintext {
-  margin-top: -29%;
+  margin-top: -34%;
   visibility: visible;
 
 }
@@ -105,25 +114,25 @@ button {
 }
 
 .toolbar-color--maintext {
-  margin-top: 40% !important;
+  margin-top: 48% !important;
   display: inline-block !important;
   position: absolute;
   top: auto;
   right: auto;
-  margin-left: -12% !important;
+  margin-left: -10% !important;
 }
 
 .toolbar-color--headline {
-  margin-top: 16% !important;
+  margin-top: 15% !important;
   display: inline-block !important;
   position: absolute;
   top: auto;
   right: auto;
-  margin-left: -12% !important;
+  margin-left: -10% !important;
 }
 
 .toolbar-text--headline {
-  margin-top: -55% !important;
+  margin-top: -67% !important;
   visibility: visible;
 }
 
@@ -179,6 +188,18 @@ button {
   vertical-align: middle;
 }
 
+.button:hover  {
+  background:#3C93F5;
+}
+
+.buttons__download:hover {
+  background: #00E3AC;
+}
+
+.button:hover span {
+  color: #fff;
+}
+
 .button::before {
 
 }
@@ -192,6 +213,15 @@ button {
     font-size: 14px;
 
 }
+
+.buttons__headline:hover div, .buttons__main-text:hover div {
+  background: url('icons/Combined Shape.png') no-repeat;
+}
+
+.buttons__image:hover div {
+  background: url('icons/imageShape.png') no-repeat;
+}
+
 
 .buttons__download {
     width: 31px;
@@ -278,18 +308,61 @@ margin-left: 5px;
     background: url("icons/Rectangle_2 (6).png") no-repeat;
 }
 
-
-
-
-
-
 .editing-icons {
   display: inline-block;
   margin-left: 14px;
+  margin-top: 11px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.headline-icon {
+  background: url('icons/Combined_Shape.png') no-repeat;
+}
+
+.main-text-icon {
+  background: url('icons/Combined_Shape.png') no-repeat;
+}
+
+.image-icon {
+  background: url('icons/Combined_Shape2.png') no-repeat;
+}
+
+.align-left {
+  background: url('icons/align-left.png') no-repeat;
+}
+
+.align-left:hover {
+  background: url('icons/align-left1.png') no-repeat;
+}
+
+.align-center {
+  background: url('icons/align-center.png') no-repeat;
+}
+
+.align-center:hover {
+  background: url('icons/align-center1.png') no-repeat;
+}
+
+.align-right {
+  background: url('icons/align-right.png') no-repeat;
+}
+
+.align-right:hover {
+  background: url('icons/right.png') no-repeat;
 }
 
 .small-text {
-  margin-left: -1px;
+  margin-left: -4px;
+}
+
+.text-resize {
+  background: url('icons/format-size1.png') no-repeat;
+}
+
+.text-resize:hover {
+  background: url('icons/format-size2.png') no-repeat;
+
 }
 
 .fa-download:before {
